@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 const ProductCard = () => {
@@ -13,8 +14,8 @@ const ProductCard = () => {
 					className='absolute inset-0 bg-black bg-opacity-40 flex items-center 
               justify-center gap-2 opacity-0 group-hover:opacity-100 transition'
 				>
-					<a
-						href='#'
+					<Link
+						href='/wines/123'
 						className='text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition'
 						title='view product'
 					>
@@ -31,7 +32,7 @@ const ProductCard = () => {
 								clip-rule='evenodd'
 							/>
 						</svg>
-					</a>
+					</Link>
 					<a
 						href='#'
 						className='text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition'
@@ -49,32 +50,37 @@ const ProductCard = () => {
 				</div>
 			</div>
 			<div className='pt-4 pb-3 px-4'>
-				<a href='#'>
+				<Link href='wines/123'>
 					<h4 className='uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition'>
 						Red King M
 					</h4>
-				</a>
+				</Link>
 				<div className='flex items-baseline mb-1 space-x-2'>
 					<p className='text-xl text-primary font-semibold'>$45.00</p>
 					<p className='text-sm text-gray-400 line-through'>$55.90</p>
 				</div>
 				<div className='flex items-center'>
 					<div className='flex gap-1 text-sm text-yellow-400'>
-						<span>
-							<i className='fa-solid fa-star'></i>
-						</span>
-						<span>
-							<i className='fa-solid fa-star'></i>
-						</span>
-						<span>
-							<i className='fa-solid fa-star'></i>
-						</span>
-						<span>
-							<i className='fa-solid fa-star'></i>
-						</span>
-						<span>
-							<i className='fa-solid fa-star'></i>
-						</span>
+						{Array.from({ length: 4 }, (_, index) => index + 1).map(
+							(val, index) => {
+								return (
+									<span key={index}>
+										<svg
+											xmlns='http://www.w3.org/2000/svg'
+											viewBox='0 0 24 24'
+											fill='currentColor'
+											className='w-6 h-6'
+										>
+											<path
+												fillRule='evenodd'
+												d='M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z'
+												clipRule='evenodd'
+											/>
+										</svg>
+									</span>
+								);
+							}
+						)}
 					</div>
 				</div>
 			</div>

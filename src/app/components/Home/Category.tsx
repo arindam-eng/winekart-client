@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 const Category = () => {
@@ -8,12 +9,12 @@ const Category = () => {
 				alt='category 1'
 				className='w-full'
 			/>
-			<a
-				href='#'
+			<Link
+				href='/shop?cat=123'
 				className='absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition'
 			>
 				Value Wine
-			</a>
+			</Link>
 		</div>
 	);
 };

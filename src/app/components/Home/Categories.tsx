@@ -1,5 +1,6 @@
 import React from 'react';
 import Category from './Category';
+import Link from 'next/link';
 
 const Categories = () => {
 	return (
@@ -14,12 +15,12 @@ const Categories = () => {
 						alt='category 1'
 						className='w-full'
 					/>
-					<a
-						href='#'
+					<Link
+						href='/shop?cat=123'
 						className='absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition'
 					>
 						Red Wine
-					</a>
+					</Link>
 				</div>
 				<Category />
 				<div className='relative rounded-sm overflow-hidden group'>
@@ -28,12 +29,12 @@ const Categories = () => {
 						alt='category 1'
 						className='w-full'
 					/>
-					<a
-						href='#'
+					<Link
+						href='/shop?cat=123'
 						className='absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition'
 					>
 						Cabernet Sauvignon
-					</a>
+					</Link>
 				</div>
 				<div className='relative rounded-sm overflow-hidden group'>
 					<img
@@ -41,12 +42,12 @@ const Categories = () => {
 						alt='category 1'
 						className='w-full'
 					/>
-					<a
-						href='#'
+					<Link
+						href='/shop?cat=123'
 						className='absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition'
 					>
 						Classic Merlot
-					</a>
+					</Link>
 				</div>
 				<div className='relative rounded-sm overflow-hidden group'>
 					<img
@@ -54,12 +55,12 @@ const Categories = () => {
 						alt='category 1'
 						className='w-full'
 					/>
-					<a
-						href='#'
+					<Link
+						href='/shop?cat=123'
 						className='absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition'
 					>
 						Gran Cuvee Brut
-					</a>
+					</Link>
 				</div>
 				<div className='relative rounded-sm overflow-hidden group'>
 					<img
@@ -67,12 +68,12 @@ const Categories = () => {
 						alt='category 1'
 						className='w-full'
 					/>
-					<a
-						href='#'
+					<Link
+						href='/shop?cat=123'
 						className='absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition'
 					>
 						Chenin Blanc
-					</a>
+					</Link>
 				</div>
 			</div>
 		</div>
