@@ -30,7 +30,7 @@ const Navbar = () => {
 						href='/auth'
 						className='text-gray-200 hover:text-white transition'
 					>
-						Login/Register
+						Login
 					</Link>
 				</div>
 			</div>

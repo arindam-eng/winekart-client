@@ -1,3 +1,4 @@
+import { ApolloProviders } from './ApolloProvider';
 import Copyright from './components/common/Copyright';
 import Footer from './components/common/Footer';
 import Header from './components/common/Header';
@@ -26,12 +27,19 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body className={poppins.className}>
-				<Header />
-				<Navbar />
-				{children}
-				<Footer />
-				<Copyright />
+				<ApolloProviders>
+					<Header />
+					<Navbar />
+					{children}
+					<Footer />
+					<Copyright />
+				</ApolloProviders>
 			</body>
 		</html>
 	);
 }
+
+
+/**
+ * Graphql with next js 13 repo - https://github.com/Thabish-Kader/Nextjs13-graphql/tree/main/app
+ */

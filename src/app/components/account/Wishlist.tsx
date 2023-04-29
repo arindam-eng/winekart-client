@@ -1,4 +1,5 @@
 import React from 'react';
+import withAuth from '../auth-hoc/withAuth';
 
 const Wishlist = () => {
 	return (
@@ -91,4 +92,4 @@ const Wishlist = () => {
 	);
 };
 
-export default Wishlist;
+export default withAuth(Wishlist);
