@@ -1,0 +1,12 @@
+input WineFilterInput {
+	name: String
+	sku: SkuFilterInput
+	catIds: [String!]
+	brandIds: [String!]
+	pageNo: Int
+}
+
+input SkuFilterInput {
+	sku_size: String
+	sku_color: String
+}

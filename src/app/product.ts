@@ -1,5 +1,5 @@
 const product = {
-	productId: '',
+	productId: 'ABC18451',
 	name: 'ITALIAN L DIKOSTA',
 	rating: 4,
 	reviewsCount: 156,
@@ -19,8 +19,15 @@ const product = {
 			skuId: 'DRT58D41A',
 			size: '250ml',
 			color: 'red',
-			mrp: '499',
-			retailerIds: [{ userId: '8469FEF5S', originalPrice: '479' }],
+			mrp: 499,
+			retailerIds: [{ userId: '8469FEF5S', originalPrice: 479 }],
+		},
+		{
+			skuId: 'MISH874DC',
+			size: '500ml',
+			color: 'white',
+			mrp: 949,
+			retailerIds: [{ userId: '8469FEF5S', originalPrice: 899 }],
 		},
 	],
 };
