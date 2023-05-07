@@ -1,5 +1,5 @@
 import React from 'react';
-import ProductCard from '../home/ProductCard';
+import ProductCard from '../Home/ProductCard';
 
 const RelatedWines = () => {
 	return (
