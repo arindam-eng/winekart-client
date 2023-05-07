@@ -1,6 +1,15 @@
-import React from 'react';
+'use client';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 
-const Sidebar = () => {
+interface SidebarProps {
+	query: any;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ query }) => {
+	// TODO: Need to give the filter functionality includes price
+	const [filter, setFilter] = useState(query);
+	const router = useRouter();
 	return (
 		<div className='col-span-1 bg-white px-4 pb-6 shadow rounded overflow-hiddenb hidden md:block'>
 			<div className='divide-y divide-gray-200 space-y-5'>
@@ -164,17 +173,28 @@ const Sidebar = () => {
 							type='text'
 							name='min'
 							id='min'
+							value={query?.minPrice}
 							className='w-full border-gray-300 focus:border-primary rounded focus:ring-0 px-3 py-1 text-gray-600 shadow-sm'
 							placeholder='min'
+							onChange={(e) => router.push(`/shop?minPrice=${e.target.value}`)}
 						/>
 						<span className='mx-3 text-gray-500'>-</span>
 						<input
 							type='text'
 							name='max'
 							id='max'
+							value={query?.maxPrice}
 							className='w-full border-gray-300 focus:border-primary rounded focus:ring-0 px-3 py-1 text-gray-600 shadow-sm'
 							placeholder='max'
+							onChange={(e) => router.push(`/shop?maxPrice=${e.target.value}`)}
 						/>
+						<button
+							style={{ border: '1px solid gray' }}
+							className='ml-2 hover:text-primary rounded px-3 py-1 text-gray-600 shadow-sm transition duration-200'
+							onClick={(e) => router.push(`/shop?maxPrice=${e.target}`)}
+						>
+							Go
+						</button>
 					</div>
 				</div>
 
