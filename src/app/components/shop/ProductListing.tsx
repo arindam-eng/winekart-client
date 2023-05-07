@@ -9,7 +9,12 @@ export interface Product {
 	image: string;
 	slug: string;
 	mrp: number;
-	rating: number
+	rating: number;
+	description: string;
+	vintage: string;
+	producer: string;
+	reviewsCount: number;
+	outOfStock: boolean;
 }
 
 interface Props {

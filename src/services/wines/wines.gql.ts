@@ -37,3 +37,37 @@ export const GET_WINES_QUERY = gql`
 		}
 	}
 `;
+
+export const GET_WINE_QUERY = gql`
+	query Wine($slug: String!) {
+		wine(slug: $slug) {
+			productId
+			name
+			rating
+			reviewsCount
+			brandId
+			categoryId
+			image
+			description
+			highlightDescription
+			vintage
+			producer
+			slug
+			price
+			mrp
+			skus {
+				skuId
+				size
+				color
+				mrp
+				price
+				retailers {
+					id
+					familyName
+					givenName
+					address
+				}
+			}
+		}
+	}
+`;
