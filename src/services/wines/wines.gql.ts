@@ -19,7 +19,7 @@ export const GET_WINES_QUERY = gql`
 				producer
 				slug
 				price
-				mrp
+				# mrp
 				skus {
 					skuId
 					size

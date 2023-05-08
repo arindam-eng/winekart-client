@@ -1,6 +1,7 @@
 import React from 'react';
 import ProductCard from '../Home/ProductCard';
 import Pagination from '../common/Pagination';
+import { Sku } from '../wines/WineDetails';
 
 export interface Product {
 	id: number;
@@ -15,6 +16,8 @@ export interface Product {
 	producer: string;
 	reviewsCount: number;
 	outOfStock: boolean;
+	highlightDescription: string;
+	skus: Sku[];
 }
 
 interface Props {

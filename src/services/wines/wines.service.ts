@@ -4,7 +4,9 @@ import { GET_WINES_QUERY, GET_WINE_QUERY } from './wines.gql';
 async function fetchWines(filter: Record<string, any>) {
 	try {
 		const client = getClient();
+		await client.resetStore();
 		const { data } = await client.query({
+			fetchPolicy: 'network-only',
 			query: GET_WINES_QUERY,
 			variables: {
 				filter: filter || {},

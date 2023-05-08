@@ -1,11 +1,13 @@
 import React from 'react';
 import { Product } from '../shop/ProductListing';
+import { Sku } from './WineDetails';
 
 interface Props {
 	product: Product;
+	skuDetails: Sku;
 }
 
-const WineDescription: React.FC<Props> = ({ product }) => {
+const WineDescription: React.FC<Props> = ({ product, skuDetails }) => {
 	return (
 		<div className='container pb-16'>
 			<h3 className='border-b border-gray-200 font-roboto text-gray-800 pb-3 font-medium mt-5'>
@@ -23,14 +25,16 @@ const WineDescription: React.FC<Props> = ({ product }) => {
 								Color
 							</th>
 							<th className='py-2 px-4 border border-gray-300 '>
-								Blank, Brown, Red
+								{skuDetails?.color}
 							</th>
 						</tr>
 						<tr>
 							<th className='py-2 px-4 border border-gray-300 w-40 font-medium'>
 								Producer
 							</th>
-							<th className='py-2 px-4 border border-gray-300 '>{product.producer}</th>
+							<th className='py-2 px-4 border border-gray-300 '>
+								{product.producer}
+							</th>
 						</tr>
 						<tr>
 							<th className='py-2 px-4 border border-gray-300 w-40 font-medium'>

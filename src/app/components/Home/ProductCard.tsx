@@ -8,16 +8,19 @@ type ProductCardProps = {
 };
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+	const skuId = product.skus.find(
+		(sku) => Number(sku.price) === Number(product.price)
+	)?.skuId;
 	return (
 		<div className='bg-white shadow rounded overflow-hidden group'>
 			<div className='relative'>
-				<img src={product.image} alt='product 1' className='w-full' />
+				<img src={product?.image || ''} alt='product 1' className='w-full' />
 				<div
 					className='absolute inset-0 bg-black bg-opacity-40 flex items-center 
               justify-center gap-2 opacity-0 group-hover:opacity-100 transition'
 				>
 					<Link
-						href={`/wines/${product.slug}`}
+						href={`/wines/${product?.slug}?skuId=${skuId}`}
 						className='text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition'
 						title='view product'
 					>
@@ -52,19 +55,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 				</div>
 			</div>
 			<div className='pt-4 pb-3 px-4'>
-				<Link href='wines/123'>
+				<Link href={`/wines/${product?.slug}?skuId=${skuId}`}>
 					<h4 className='uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition'>
-						{product.name}
+						{product?.name}
 					</h4>
 				</Link>
 				<div className='flex items-baseline mb-1 space-x-2'>
-					<p className='text-xl text-primary font-semibold'>${product.price}</p>
-					<p className='text-sm text-gray-400 line-through'>${product.mrp}</p>
+					<p className='text-xl text-primary font-semibold'>
+						${product?.price}
+					</p>
+					<p className='text-sm text-gray-400 line-through'>${product?.mrp}</p>
 				</div>
 				<div className='flex items-center'>
 					<div className='flex gap-1 text-sm text-yellow-400'>
 						{Array.from(
-							{ length: product.rating },
+							{ length: product?.rating },
 							(_, index) => index + 1
 						).map((val, index) => {
 							return (

@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { ApolloProviders } from './ApolloProvider';
 import Copyright from './components/common/Copyright';
 import Footer from './components/common/Footer';
@@ -11,11 +12,11 @@ const poppins = Poppins({
 	subsets: ['latin'],
 });
 
-export const metadata = {
+export const metadata: Metadata = {
 	title: 'WineKart',
 	description:
 		'This a wine ecommerce platform for learning , Built with Next JS and Nest JS',
-	name: 'viewport',
+	name: 'Winekart',
 	content: 'width=device-width, initial-scale=1.0',
 };
 
@@ -38,7 +39,6 @@ export default function RootLayout({
 		</html>
 	);
 }
-
 
 /**
  * Graphql with next js 13 repo - https://github.com/Thabish-Kader/Nextjs13-graphql/tree/main/app
