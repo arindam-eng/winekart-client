@@ -90,7 +90,7 @@ const Cart: React.FC<CartProps> = ({ cartOpen, setCartOpen }) => {
 														className='-my-6 divide-y divide-gray-200'
 													>
 														{products.map((product) => (
-															<ProductItem product={product} key={product.id} />
+															<ProductItem product={product} key={product?.id} />
 														))}
 													</ul>
 												</div>

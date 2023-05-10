@@ -18,6 +18,8 @@ export interface Product {
 	outOfStock: boolean;
 	highlightDescription: string;
 	skus: Sku[];
+	brand: any;
+	category: any;
 }
 
 interface Props {

@@ -15,26 +15,26 @@ export interface Sku {
 interface Props {
 	product: Product;
 	skuDetails: Sku;
-	quantity: number;
 }
 
-const WineDetails: React.FC<Props> = ({ product, skuDetails, quantity }) => {
+const WineDetails: React.FC<Props> = ({ product, skuDetails }) => {
 	const handleAddToCart = (e: any) => {
 		e.preventDefault();
 		alert('came here');
 	};
+	const [quantity, setQuantity] = React.useState(1);
 	return (
 		<div className='container grid grid-cols-3'>
 			<div>
 				<img
-					src={product.image}
+					src={product?.image}
 					alt='product'
 					style={{ height: '520px', width: 'auto' }}
 				/>
 			</div>
 
 			<div className='col-span-2'>
-				<h2 className='text-3xl font-medium uppercase mb-2'>{product.name}</h2>
+				<h2 className='text-3xl font-medium uppercase mb-2'>{product?.name}</h2>
 				<div className='flex items-center mb-4'>
 					<div className='flex gap-1 text-sm text-yellow-400'>
 						{Array.from(
@@ -72,11 +72,13 @@ const WineDetails: React.FC<Props> = ({ product, skuDetails, quantity }) => {
 					</p>
 					<p className='space-x-2'>
 						<span className='text-gray-800 font-semibold'>Brand: </span>
-						<span className='text-gray-600'>Apex</span>
+						<span className='text-gray-600'>{product?.brand?.brandName}</span>
 					</p>
 					<p className='space-x-2'>
 						<span className='text-gray-800 font-semibold'>Category: </span>
-						<span className='text-gray-600'>Sofa</span>
+						<span className='text-gray-600'>
+							{product?.category?.categoryName}
+						</span>
 					</p>
 					<p className='space-x-2'>
 						<span className='text-gray-800 font-semibold'>SKU: </span>
@@ -85,10 +87,10 @@ const WineDetails: React.FC<Props> = ({ product, skuDetails, quantity }) => {
 				</div>
 				<div className='flex items-baseline mb-1 space-x-2 font-roboto mt-4'>
 					<p className='text-xl text-primary font-semibold'>
-						${skuDetails.price}
+						${skuDetails?.price}
 					</p>
 					<p className='text-base text-gray-400 line-through'>
-						${skuDetails.mrp}
+						${skuDetails?.mrp}
 					</p>
 				</div>
 
@@ -154,25 +156,25 @@ const WineDetails: React.FC<Props> = ({ product, skuDetails, quantity }) => {
 					<h3 className='text-sm text-gray-800 uppercase mb-1'>Quantity</h3>
 					<div className='flex border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max'>
 						<div className='h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none'>
-							<Link
-								href={`/wines/${product?.slug}?skuId=${
-									skuDetails.skuId
-								}quantity=${quantity - 1}`}
+							<button
+								onClick={() =>
+									setQuantity((val) => (val - 1 < 1 ? val : val - 1))
+								}
 							>
 								-
-							</Link>
+							</button>
 						</div>
 						<div className='h-8 w-8 text-base flex items-center justify-center'>
 							{quantity}
 						</div>
 						<div className='h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none'>
-							<Link
-								href={`/wines/${product?.slug}?skuId=${
-									skuDetails.skuId
-								}quantity=${quantity + 1}`}
+							<button
+								onClick={() =>
+									setQuantity((val) => (val + 1 < 11 ? val + 1 : val))
+								}
 							>
 								+
-							</Link>
+							</button>
 						</div>
 					</div>
 				</div>

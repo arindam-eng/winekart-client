@@ -8,8 +8,8 @@ type ProductCardProps = {
 };
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-	const skuId = product.skus.find(
-		(sku) => Number(sku.price) === Number(product.price)
+	const skuId = product?.skus?.find(
+		(sku) => Number(sku.price) === Number(product?.price)
 	)?.skuId;
 	return (
 		<div className='bg-white shadow rounded overflow-hidden group'>

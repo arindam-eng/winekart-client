@@ -15,7 +15,7 @@ const WineDescription: React.FC<Props> = ({ product, skuDetails }) => {
 			</h3>
 			<div className='w-3/5 pt-6'>
 				<div className='text-gray-600'>
-					<p>{product.description}</p>
+					<p>{product?.description}</p>
 				</div>
 
 				<table className='table-auto border-collapse w-full text-left text-gray-600 text-sm mt-6'>
@@ -33,7 +33,7 @@ const WineDescription: React.FC<Props> = ({ product, skuDetails }) => {
 								Producer
 							</th>
 							<th className='py-2 px-4 border border-gray-300 '>
-								{product.producer}
+								{product?.producer}
 							</th>
 						</tr>
 						<tr>
@@ -41,7 +41,7 @@ const WineDescription: React.FC<Props> = ({ product, skuDetails }) => {
 								Vintage
 							</th>
 							<th className='py-2 px-4 border border-gray-300 '>
-								{product.vintage}
+								{product?.vintage}
 							</th>
 						</tr>
 					</tbody>

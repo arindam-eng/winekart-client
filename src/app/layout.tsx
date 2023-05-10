@@ -16,8 +16,8 @@ export const metadata: Metadata = {
 	title: 'WineKart',
 	description:
 		'This a wine ecommerce platform for learning , Built with Next JS and Nest JS',
-	name: 'Winekart',
-	content: 'width=device-width, initial-scale=1.0',
+	// name: 'Winekart',
+	// content: 'width=device-width, initial-scale=1.0',
 };
 
 export default function RootLayout({
