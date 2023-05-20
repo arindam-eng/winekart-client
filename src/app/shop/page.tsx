@@ -4,12 +4,14 @@ import Sidebar from '../components/shop/Sidebar';
 import SortingHeader from '../components/shop/SortingHeader';
 import ProductListing from '../components/shop/ProductListing';
 import { fetchWines } from '@/services/wines/wines.service';
+import { NextPage } from 'next';
 
 interface PageProps {
 	searchParams: any;
 }
 
-const Shop: React.FC<PageProps> = async ({ searchParams }) => {
+// @ts-expect-error Server Component
+const Shop: NextPage<PageProps> = async ({ searchParams }): Promise<any> => {
 	const data = await fetchWines(searchParams || {});
 	return (
 		<>
@@ -17,7 +19,8 @@ const Shop: React.FC<PageProps> = async ({ searchParams }) => {
 			<div className='container grid md:grid-cols-4 grid-cols-2 gap-6 pt-4 pb-16 items-start'>
 				<Sidebar query={searchParams} />
 				<div className='col-span-3'>
-					<SortingHeader query={searchParams} />
+					{/* <SortingHeader query={searchParams} /> */}
+					<SortingHeader />
 					<ProductListing data={data.wines?.data || []} />
 				</div>
 			</div>

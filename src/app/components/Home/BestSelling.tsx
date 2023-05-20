@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import ProductCard from './ProductCard';
 
@@ -73,7 +74,7 @@ const BestSelling = () => {
 					</a>
 				</div>
 
-				<ProductCard />
+				{/* <ProductCard product={} /> */}
 
 				<div className='bg-white shadow rounded overflow-hidden group'>
 					<div className='relative'>

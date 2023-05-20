@@ -1,6 +1,4 @@
-import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
-
-let client: ApolloClient<any> | null = null;
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 // export const getClient = () => {
 //   if (!client || typeof window === "undefined") {
