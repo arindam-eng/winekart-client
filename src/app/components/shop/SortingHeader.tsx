@@ -1,8 +1,17 @@
 import React from 'react';
 
-const SortingHeader = () => {
+interface SortingHeaderProps {
+	filter: any;
+}
+
+const SortingHeader: React.FC<SortingHeaderProps> = ({ filter }) => {
+	console.log(filter);
+	
 	return (
-		<div className='flex items-center mb-4' style={{ justifyContent: 'flex-end' }}>
+		<div
+			className='flex items-center mb-4'
+			style={{ justifyContent: 'flex-end' }}
+		>
 			<select
 				name='sort'
 				id='sort'

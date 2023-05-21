@@ -1,7 +1,11 @@
+'use client';
 import React from 'react';
 import ProductCard from '../Home/ProductCard';
 import Pagination from '../common/Pagination';
 import { Sku } from '../wines/WineDetails';
+import { useQuery } from '@apollo/client';
+import { GET_WINES_QUERY } from '@/gql/wines/wines.gql';
+import Loader from '../common/Loader';
 
 export interface Product {
 	id: number;
@@ -26,17 +30,23 @@ interface Props {
 	data: Product[];
 }
 
-const ProductListing: React.FC<Props> = ({ data }) => {
+interface ProductListingProps {
+	filter: any;
+}
+
+const ProductListing: React.FC<ProductListingProps> = ({ filter }) => {
+	const { data, loading, error } = useQuery(GET_WINES_QUERY, {
+		variables: { filter: filter || {} },
+	});
 	return (
 		<>
 			<div className='grid md:grid-cols-3 grid-cols-2 gap-6'>
-				{data?.length > 0 ? (
-					data.map((val, index) => {
-						return <ProductCard key={index} product={val} />;
-					})
-				) : (
-					<h3>No Product found</h3>
-				)}
+				<Loader loading={loading} />
+				{data?.wines?.data?.length > 0
+					? data.wines.data.map((val: any, index: any) => {
+							return <ProductCard key={index} product={val} />;
+					  })
+					: !loading && <h3>No Product found</h3>}
 			</div>
 			<hr className='mt-6' />
 			<Pagination />

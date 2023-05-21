@@ -3,7 +3,7 @@ import React from 'react';
 import WineDetails, { Sku } from './WineDetails';
 import WineDescription from './WineDescription';
 import { useQuery } from '@apollo/client';
-import { GET_WINE_QUERY } from '@/services/wines/wines.gql';
+import { GET_WINE_QUERY } from '@/gql/wines/wines.gql';
 
 interface Props {
 	slug: string;

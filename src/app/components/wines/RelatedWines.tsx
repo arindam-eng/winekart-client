@@ -3,7 +3,7 @@ import React from 'react';
 import ProductCard from '../Home/ProductCard';
 import { Product } from '../shop/ProductListing';
 import { useQuery } from '@apollo/client';
-import { GET_WINES_QUERY } from '@/services/wines/wines.gql';
+import { GET_WINES_QUERY } from '@/gql/wines/wines.gql';
 
 const RelatedWines = () => {
 	const { data, loading, error } = useQuery(GET_WINES_QUERY, {
