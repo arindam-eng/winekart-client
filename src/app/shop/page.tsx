@@ -10,9 +10,9 @@ interface PageProps {
 	searchParams: any;
 }
 
-// @ts-expect-error Server Component
-const Shop: NextPage<PageProps> = async ({ searchParams }): Promise<any> => {
-	const data = await fetchWines(searchParams || {});
+
+const Shop: NextPage<PageProps> = ({ searchParams }) => {
+	// const data = await fetchWines(searchParams || {});
 	return (
 		<>
 			<Breadcrumb text='Shop' />
@@ -21,7 +21,7 @@ const Shop: NextPage<PageProps> = async ({ searchParams }): Promise<any> => {
 				<div className='col-span-3'>
 					{/* <SortingHeader query={searchParams} /> */}
 					<SortingHeader />
-					<ProductListing data={data.wines?.data || []} />
+					{/* <ProductListing data={data.wines?.data || []} /> */}
 				</div>
 			</div>
 		</>
