@@ -4,16 +4,15 @@ import ProductCard from '../Home/ProductCard';
 import { Product } from '../shop/ProductListing';
 import { useQuery } from '@apollo/client';
 import { GET_WINES_QUERY } from '@/gql/wines/wines.gql';
+import Loader from '../common/Loader';
 
 const RelatedWines = () => {
 	const { data, loading, error } = useQuery(GET_WINES_QUERY, {
 		variables: { filter: { limit: '4' } },
 	});
-	console.log('=========data===========================');
-	console.log(data);
-	console.log('====================================');
 	return (
 		<div className='container pb-16'>
+			<Loader loading={loading} />
 			{data?.wines?.data?.length > 0 && (
 				<>
 					<h2 className='text-2xl font-medium text-gray-800 uppercase mb-6'>

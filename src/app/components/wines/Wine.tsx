@@ -4,6 +4,7 @@ import WineDetails, { Sku } from './WineDetails';
 import WineDescription from './WineDescription';
 import { useQuery } from '@apollo/client';
 import { GET_WINE_QUERY } from '@/gql/wines/wines.gql';
+import Loader from '../common/Loader';
 
 interface Props {
 	slug: string;
@@ -25,6 +26,7 @@ const Wine: React.FC<Props> = ({ slug, skuId }) => {
 		);
 	return (
 		<>
+			<Loader loading={loading} />
 			<WineDetails product={data?.wine} skuDetails={skuDetails} />
 			<WineDescription product={data?.wine} skuDetails={skuDetails} />
 		</>
