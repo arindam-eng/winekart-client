@@ -1,9 +1,27 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Cart from './Cart';
 
 const Header = () => {
+	const [cartItemCount, setCartItemCount] = useState(
+		localStorage.getItem('cartItemCount')
+	);
+	useEffect(() => {
+		const handleLocalStorageChange = (event: any) => {
+			const { key, value } = event.detail;
+			if (key !== 'cartItemCount') return null;
+			setCartItemCount(value);
+		};
+		window.addEventListener('localStorageChange', handleLocalStorageChange);
+		return () => {
+			window.removeEventListener(
+				'localStorageChange',
+				handleLocalStorageChange
+			);
+		};
+	}, []);
+
 	const [cartOpen, setCartOpen] = useState(false);
 	return (
 		<>
@@ -110,7 +128,7 @@ const Header = () => {
 							</div>
 							<div className='text-xs leading-3'>Cart</div>
 							<div className='absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs'>
-								2
+								{cartItemCount || 0}
 							</div>
 						</Link>
 						<Link

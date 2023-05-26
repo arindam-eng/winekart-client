@@ -3,6 +3,9 @@
 import React from 'react';
 import { Product } from '../shop/ProductListing';
 import Link from 'next/link';
+import { ADD_ITEM_TO_ORDER } from '@/gql/orders/order.gql';
+import { useMutation } from '@apollo/client';
+import localStorageManager from '@/helper/localStorageManager';
 
 export interface Sku {
 	skuId: string;
@@ -18,11 +21,26 @@ interface Props {
 }
 
 const WineDetails: React.FC<Props> = ({ product, skuDetails }) => {
-	const handleAddToCart = (e: any) => {
-		e.preventDefault();
-		alert('came here');
-	};
 	const [quantity, setQuantity] = React.useState(1);
+	const [
+		addItemToCart,
+		{ data: cartOrder, loading: cartOrderLoading, error: cartOrderError },
+	] = useMutation(ADD_ITEM_TO_ORDER);
+
+	const handleAddToCart = async (e: any) => {
+		e.preventDefault();
+		const addItemInput = {
+			product: {
+				slug: product?.slug,
+				quantity: Number(quantity),
+				skuId: Number(skuDetails?.skuId),
+			},
+		};
+		const { data } = await addItemToCart({ variables: { addItemInput } });
+		const cartItemCount = data?.addItemToOrder?.cartItemCount;
+		// localStorage.setItem('cartItemCount', cartItemCount);
+		localStorageManager.setValue('cartItemCount', cartItemCount)
+	};
 	return (
 		<div className='container grid grid-cols-3'>
 			<div>
