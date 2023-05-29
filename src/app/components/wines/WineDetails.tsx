@@ -1,11 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Product } from '../shop/ProductListing';
 import Link from 'next/link';
 import { ADD_ITEM_TO_ORDER } from '@/gql/orders/order.gql';
 import { useMutation } from '@apollo/client';
 import localStorageManager from '@/helper/localStorageManager';
+import { toast } from 'react-toastify';
 
 export interface Sku {
 	skuId: string;
@@ -27,6 +28,14 @@ const WineDetails: React.FC<Props> = ({ product, skuDetails }) => {
 		{ data: cartOrder, loading: cartOrderLoading, error: cartOrderError },
 	] = useMutation(ADD_ITEM_TO_ORDER);
 
+	useEffect(() => {
+		if (cartOrderError) {
+			toast.error(cartOrderError?.message, {
+        position: toast.POSITION.TOP_RIGHT
+      });
+		}
+	}, [cartOrderError]);
+
 	const handleAddToCart = async (e: any) => {
 		e.preventDefault();
 		const addItemInput = {
@@ -38,8 +47,12 @@ const WineDetails: React.FC<Props> = ({ product, skuDetails }) => {
 		};
 		const { data } = await addItemToCart({ variables: { addItemInput } });
 		const cartItemCount = data?.addItemToOrder?.cartItemCount;
-		// localStorage.setItem('cartItemCount', cartItemCount);
-		localStorageManager.setValue('cartItemCount', cartItemCount)
+		const items = data?.addItemToOrder?.items;
+		localStorageManager.setValue('cartItemCount', cartItemCount);
+		localStorageManager.setValue(
+			'cartItems',
+			JSON.stringify(items.map((item: any) => item.sku?.skuId))
+		);
 	};
 	return (
 		<div className='container grid grid-cols-3'>

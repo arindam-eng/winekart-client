@@ -2,10 +2,23 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Cart from './Cart';
+import { useQuery } from '@apollo/client';
+import { GET_OPEN_ORDER } from '@/gql/orders/order.gql';
+import localStorageManager from '@/helper/localStorageManager';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Header = () => {
+	const [cartOpen, setCartOpen] = useState(false);
+	const {
+		data: cartData,
+		loading: cartLoading,
+		error: cartError,
+		refetch: refetchCartData,
+	} = useQuery(GET_OPEN_ORDER);
+
 	const [cartItemCount, setCartItemCount] = useState(
-		localStorage.getItem('cartItemCount')
+		window.localStorage.getItem('cartItemCount')
 	);
 	useEffect(() => {
 		const handleLocalStorageChange = (event: any) => {
@@ -22,7 +35,25 @@ const Header = () => {
 		};
 	}, []);
 
-	const [cartOpen, setCartOpen] = useState(false);
+	useEffect(() => {
+		localStorageManager.setValue(
+			'cartItemCount',
+			cartData?.getOpenOrder?.cartItemCount
+		);
+	}, [cartData?.getOpenOrder?.cartItemCount]);
+
+	useEffect(() => {
+		if (cartError?.message) {
+			toast.error(cartError?.message, {
+				position: toast.POSITION.TOP_LEFT,
+			});
+		}
+	}, [cartError?.message]);
+
+	useEffect(() => {
+		if (cartOpen) refetchCartData();
+	}, [cartOpen, refetchCartData]);
+
 	return (
 		<>
 			<header className='py-4 shadow-sm bg-white'>
@@ -156,7 +187,13 @@ const Header = () => {
 					</div>
 				</div>
 			</header>
-			<Cart cartOpen={cartOpen} setCartOpen={setCartOpen} />
+			<Cart
+				cartOpen={cartOpen}
+				setCartOpen={setCartOpen}
+				cartData={cartData?.getOpenOrder}
+				cartLoading={cartLoading}
+			/>
+			<ToastContainer />
 		</>
 	);
 };
