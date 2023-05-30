@@ -18,7 +18,7 @@ const Header = () => {
 	} = useQuery(GET_OPEN_ORDER);
 
 	const [cartItemCount, setCartItemCount] = useState(
-		window.localStorage.getItem('cartItemCount')
+		typeof window !== "undefined" ? window.localStorage.getItem('cartItemCount') : 0
 	);
 	useEffect(() => {
 		const handleLocalStorageChange = (event: any) => {

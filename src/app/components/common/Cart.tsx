@@ -4,6 +4,11 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import ProductItem from '../cart/ProductItem';
 import Loader from './Loader';
+import { useMutation } from '@apollo/client';
+import { ORDER_CHECKOUT } from '@/gql/orders/order.gql';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+import localStorageManager from '@/helper/localStorageManager';
 
 type CartProps = {
 	cartOpen: boolean;
@@ -18,6 +23,11 @@ const Cart: React.FC<CartProps> = ({
 	cartData,
 	cartLoading,
 }) => {
+	const router = useRouter();
+	const [
+		checkoutOrder,
+		{ data: checkoutData, loading: checkoutLoading, error: checkoutErr },
+	] = useMutation(ORDER_CHECKOUT);
 	const [items, setItems] = useState([]);
 	const [total, setTotal] = useState(0);
 	console.log(cartData);
@@ -32,6 +42,21 @@ const Cart: React.FC<CartProps> = ({
 			);
 		}
 	}, [cartData]);
+
+	const handleCheckout = async (e: any) => {
+		e.preventDefault();
+		if (checkoutLoading) return false;
+		// eslint-disable-next-line react-hooks/rules-of-hooks
+		await checkoutOrder();
+		if (checkoutErr) {
+			return toast.error(checkoutErr.message);
+		}
+		localStorageManager.setValue(
+			'stripePublicKey',
+			checkoutData?.checkoutSesionForAOrder?.publicKey
+		);
+		router.push(checkoutData?.checkoutSesionForAOrder?.sessionUrl);
+	};
 
 	return (
 		<Transition.Root show={cartOpen} as={Fragment}>
@@ -86,12 +111,14 @@ const Cart: React.FC<CartProps> = ({
 														role='list'
 														className='-my-6 divide-y divide-gray-200'
 													>
-														{items.map((product: any, index: number) => (
-															<ProductItem
-																product={product}
-																key={product?.productId + index}
-															/>
-														))}
+														{items?.length > 0
+															? items.map((product: any, index: number) => (
+																	<ProductItem
+																		product={product}
+																		key={product?.productId + index}
+																	/>
+															  ))
+															: 'Cart Empty'}
 													</ul>
 												</div>
 											</div>
@@ -109,8 +136,9 @@ const Cart: React.FC<CartProps> = ({
 												<a
 													href='#'
 													className='flex items-center justify-center rounded-md border border-transparent bg-primary px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-red-700'
+													onClick={handleCheckout}
 												>
-													Checkout
+													{checkoutLoading ? 'Loading... ' : 'Checkout'}
 												</a>
 											</div>
 											<div className='mt-6 flex justify-center text-center text-sm text-gray-500'>
