@@ -29,7 +29,7 @@ import {
 } from '@apollo/client';
 
 export const getClient = () => {
-	const httpLink = createHttpLink({ uri: 'http://localhost:8000/graphql' });
+	const httpLink = createHttpLink({ uri: 'http://winekart-lb-new-992789092.us-east-1.elb.amazonaws.com/graphql' });
 
 	const authLink = new ApolloLink((operation, forward) => {
 		// Retrieve the bearer token from local storage
