@@ -1,10 +1,59 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Cart from './Cart';
+import { useQuery } from '@apollo/client';
+import { GET_OPEN_ORDER } from '@/gql/orders/order.gql';
+import localStorageManager from '@/helper/localStorageManager';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Header = () => {
 	const [cartOpen, setCartOpen] = useState(false);
+	const {
+		data: cartData,
+		loading: cartLoading,
+		error: cartError,
+		refetch: refetchCartData,
+	} = useQuery(GET_OPEN_ORDER);
+
+	const [cartItemCount, setCartItemCount] = useState(
+		typeof window !== "undefined" ? window.localStorage.getItem('cartItemCount') : 0
+	);
+	useEffect(() => {
+		const handleLocalStorageChange = (event: any) => {
+			const { key, value } = event.detail;
+			if (key !== 'cartItemCount') return null;
+			setCartItemCount(value);
+		};
+		window.addEventListener('localStorageChange', handleLocalStorageChange);
+		return () => {
+			window.removeEventListener(
+				'localStorageChange',
+				handleLocalStorageChange
+			);
+		};
+	}, []);
+
+	useEffect(() => {
+		localStorageManager.setValue(
+			'cartItemCount',
+			cartData?.getOpenOrder?.cartItemCount
+		);
+	}, [cartData?.getOpenOrder?.cartItemCount]);
+
+	useEffect(() => {
+		if (cartError?.message) {
+			toast.error(cartError?.message, {
+				position: toast.POSITION.TOP_LEFT,
+			});
+		}
+	}, [cartError?.message]);
+
+	useEffect(() => {
+		if (cartOpen) refetchCartData();
+	}, [cartOpen, refetchCartData]);
+
 	return (
 		<>
 			<header className='py-4 shadow-sm bg-white'>
@@ -110,7 +159,7 @@ const Header = () => {
 							</div>
 							<div className='text-xs leading-3'>Cart</div>
 							<div className='absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs'>
-								2
+								{cartItemCount || 0}
 							</div>
 						</Link>
 						<Link
@@ -138,7 +187,13 @@ const Header = () => {
 					</div>
 				</div>
 			</header>
-			<Cart cartOpen={cartOpen} setCartOpen={setCartOpen} />
+			<Cart
+				cartOpen={cartOpen}
+				setCartOpen={setCartOpen}
+				cartData={cartData?.getOpenOrder}
+				cartLoading={cartLoading}
+			/>
+			<ToastContainer />
 		</>
 	);
 };

@@ -24,6 +24,7 @@ export interface Product {
 	skus: Sku[];
 	brand: any;
 	category: any;
+	retailerId: string;
 }
 
 interface Props {

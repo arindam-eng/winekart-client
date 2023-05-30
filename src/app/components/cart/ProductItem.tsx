@@ -1,15 +1,20 @@
+/* eslint-disable @next/next/no-img-element */
 import React from 'react';
+import slugify from 'slugify'
 
 type ProductItemProps = {
 	product: {
 		id: number;
 		name: string;
-		price: string;
-		href: string;
-		color: string;
 		quantity: number;
-    imageSrc: string,
-    imageAlt: string
+		image: string;
+		sku: {
+			skuId: string,
+			size: string,
+			color: string,
+			mrp: number,
+			price: number
+		}
 	};
 };
 
@@ -18,8 +23,8 @@ const ProductItem = ({ product }: ProductItemProps) => {
 		<li key={product?.id} className='flex py-6'>
 			<div className='h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200'>
 				<img
-					src={product?.imageSrc}
-					alt={product?.imageAlt}
+					src={product?.image}
+					alt={product?.name}
 					className='h-full w-full object-cover object-center'
 				/>
 			</div>
@@ -28,11 +33,12 @@ const ProductItem = ({ product }: ProductItemProps) => {
 				<div>
 					<div className='flex justify-between text-base font-medium text-gray-900'>
 						<h3>
-							<a href={product?.href}>{product?.name}</a>
+							<a href='#'>{product?.name}</a>
 						</h3>
-						<p className='ml-4'>{product?.price}</p>
+						<p className='ml-4'>${product?.sku?.price}</p>
 					</div>
-					<p className='mt-1 text-sm text-gray-500'>{product?.color}</p>
+					<p className='mt-1 text-sm text-gray-500'>{product?.sku?.size}</p>
+					<p className='mt-1 text-sm text-gray-500'>{product?.sku?.color}</p>
 				</div>
 				<div className='flex flex-1 items-end justify-between text-sm'>
 					<p className='text-gray-500'>Qty {product?.quantity}</p>
