@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 		'This a wine ecommerce platform for learning , Built with Next JS and Nest JS',
 	// name: 'Winekart',
 	// content: 'width=device-width, initial-scale=1.0',
+	// <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
 };
 
 export default function RootLayout({
@@ -27,6 +28,12 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang='en'>
+			<head>
+				<meta
+					httpEquiv='Content-Security-Policy'
+					content='upgrade-insecure-requests'
+				/>
+			</head>
 			<body className={poppins.className}>
 				<ApolloProviders>
 					<Header />
