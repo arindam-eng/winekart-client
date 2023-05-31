@@ -9,16 +9,21 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Header = () => {
+	const authToken = localStorage.getItem('wine_token');
 	const [cartOpen, setCartOpen] = useState(false);
 	const {
 		data: cartData,
 		loading: cartLoading,
 		error: cartError,
 		refetch: refetchCartData,
-	} = useQuery(GET_OPEN_ORDER);
+	} = useQuery(GET_OPEN_ORDER, {
+		skip: !authToken, // Skips the query if authToken is not available
+	});
 
 	const [cartItemCount, setCartItemCount] = useState(
-		typeof window !== "undefined" ? window.localStorage.getItem('cartItemCount') : 0
+		typeof window !== 'undefined'
+			? window.localStorage.getItem('cartItemCount')
+			: 0
 	);
 	useEffect(() => {
 		const handleLocalStorageChange = (event: any) => {

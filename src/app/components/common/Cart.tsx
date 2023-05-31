@@ -9,6 +9,7 @@ import { ORDER_CHECKOUT } from '@/gql/orders/order.gql';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import localStorageManager from '@/helper/localStorageManager';
+import withAuth from '../auth-hoc/withAuth';
 
 type CartProps = {
 	cartOpen: boolean;
@@ -166,4 +167,4 @@ const Cart: React.FC<CartProps> = ({
 	);
 };
 
-export default Cart;
+export default withAuth(Cart);

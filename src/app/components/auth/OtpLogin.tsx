@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
 import { useRouter } from 'next/navigation';
 
@@ -23,7 +23,7 @@ const initalOtpForm = { data: '', otp: '' };
 const OtpLogin = () => {
 	const [otpForm, setOtpForm] = useState(initalOtpForm);
 	const [otpInputShow, setOtpInputShow] = useState(false);
-  const router = useRouter();
+	const router = useRouter();
 
 	const [
 		sendOtp,
@@ -33,6 +33,16 @@ const OtpLogin = () => {
 		verifyOtp,
 		{ data: verifyOtpData, loading: verifyOtpLoading, error: verifyOtpError },
 	] = useMutation(VERIFY_OTP);
+
+	useEffect(() => {
+		if (sendOtpData?.sendOtp && !sendOtpError) {
+			setOtpInputShow(true);
+		}
+		if (verifyOtpData?.verifyOtp?.data) {
+			localStorage.setItem('wine_token', verifyOtpData?.verifyOtp?.data);
+			location.href = '/';
+		}
+	}, [router, sendOtpData, sendOtpError, verifyOtpData]);
 
 	const handleSendOtp = async (e: any) => {
 		try {
@@ -53,13 +63,6 @@ const OtpLogin = () => {
 							},
 						},
 				  });
-			if (sendOtpData?.sendOtp && !sendOtpError) {
-				setOtpInputShow(true);
-			}
-			if (verifyOtpData?.verifyOtp) {
-				localStorage.setItem('wine_token', verifyOtpData?.verifyOtp?.data);
-				router.push('/');
-			}
 		} catch (error) {
 			console.error(error);
 		}

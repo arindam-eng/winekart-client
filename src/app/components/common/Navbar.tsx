@@ -1,7 +1,18 @@
-import React from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 const Navbar = () => {
+	const [loggedIn, setLoggedIn] = useState(false);
+
+	useEffect(() => {
+		const authToken =
+			typeof window !== 'undefined'
+				? window.localStorage.getItem('wine_token')
+				: null;
+		if (authToken) setLoggedIn(true);
+	}, []);
+
 	return (
 		<nav className='bg-gray-800'>
 			<div className='container flex'>
@@ -19,10 +30,16 @@ const Navbar = () => {
 						>
 							Shop
 						</Link>
-						<Link href='#' className='text-gray-200 hover:text-white transition'>
+						<Link
+							href='#'
+							className='text-gray-200 hover:text-white transition'
+						>
 							About us
 						</Link>
-						<Link href='#' className='text-gray-200 hover:text-white transition'>
+						<Link
+							href='#'
+							className='text-gray-200 hover:text-white transition'
+						>
 							Contact us
 						</Link>
 					</div>
@@ -30,7 +47,7 @@ const Navbar = () => {
 						href='/auth'
 						className='text-gray-200 hover:text-white transition'
 					>
-						Login
+						{loggedIn ? '' : 'Login'}
 					</Link>
 				</div>
 			</div>

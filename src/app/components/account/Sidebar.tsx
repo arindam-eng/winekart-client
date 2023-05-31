@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
@@ -83,6 +84,11 @@ const AccSidebar: React.FC<AccSidebarProps> = ({ eventKey, setEventKey }) => {
 					<a
 						href='#'
 						className='relative hover:text-primary block font-medium capitalize transition'
+						onClick={(e: any) => {
+							e.preventDefault();
+							localStorage.removeItem('wine_token');
+							location.reload();
+						}}
 					>
 						<span className='absolute -left-8 top-0 text-base'>
 							<i className='fa-solid fa-right-from-bracket'></i>

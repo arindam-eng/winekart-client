@@ -5,6 +5,7 @@ import AccSidebar from '../components/account/Sidebar';
 import ManageAcc from '../components/account/ManageAcc';
 import ProfileForm from '../components/account/ProfileForm';
 import Wishlist from '../components/account/Wishlist';
+import withAuth from '../components/auth-hoc/withAuth';
 
 interface PageProps {
 	searchParams: any;
@@ -34,4 +35,4 @@ const Profile: React.FC<PageProps> = ({ searchParams }) => {
 	);
 };
 
-export default Profile;
+export default withAuth(Profile);

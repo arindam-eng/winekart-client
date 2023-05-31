@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useMutation, gql } from '@apollo/client';
@@ -19,15 +19,24 @@ const SocialLogin = () => {
 	const [socialLogin, { data: socialLoginData, loading, error }] =
 		useMutation(SOCIAL_LOGIN);
 
+	useEffect(() => {
+		if (socialLoginData?.socialLogin?.data) {
+			localStorage.setItem('wine_token', socialLoginData?.socialLogin?.data);
+			location.href = '/'
+		}
+	}, [router, socialLoginData]);
+
+	useEffect(() => {
+		if (localStorage.getItem('wine_token')) {
+			location.href = '/';
+		}
+	}, []);
+
 	const handleSocialLogin = async (credentialResponse: any) => {
 		const idToken = credentialResponse.credential; // replace with actual id token
 		const method = 'google'; // replace with actual social login method
 		try {
 			await socialLogin({ variables: { method, idToken } });
-			if (socialLoginData?.socialLogin?.data) {
-				localStorage.setItem('wine_token', socialLoginData?.socialLogin?.data);
-				router.push('/');
-			}
 		} catch (error) {
 			console.error(error);
 		}
