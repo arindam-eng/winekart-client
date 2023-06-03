@@ -7,10 +7,16 @@ import { GET_OPEN_ORDER } from '@/gql/orders/order.gql';
 import localStorageManager from '@/helper/localStorageManager';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-const Header = () => {
+import { useRouter } from 'next/navigation';
+import { NextPage } from 'next';
+interface PageProps {
+	searchParams: any;
+}
+const Header: NextPage<PageProps> = ({ searchParams }) => {
+	const router = useRouter();
 	const authToken = localStorage.getItem('wine_token');
 	const [cartOpen, setCartOpen] = useState(false);
+	const [search, setSearch] = useState('');
 	const {
 		data: cartData,
 		loading: cartLoading,
@@ -25,6 +31,14 @@ const Header = () => {
 			? window.localStorage.getItem('cartItemCount')
 			: 0
 	);
+
+	useEffect(() => {
+		const decodedObject = searchParams?.filterQuery
+			? JSON.parse(searchParams.filterQuery)
+			: {};
+		setSearch(decodedObject.name);
+	}, [searchParams]);
+
 	useEffect(() => {
 		const handleLocalStorageChange = (event: any) => {
 			const { key, value } = event.detail;
@@ -106,8 +120,21 @@ const Header = () => {
 							id='search'
 							className='w-full border border-primary border-r-0 pl-12 py-3 pr-3 rounded-l-md focus:outline hidden md:flex'
 							placeholder='search'
+							value={search}
+							onChange={(e) => {
+								setSearch(e.target.value);
+							}}
 						/>
-						<button className='bg-secondary border border-primary text-black px-8 rounded-r-md'>
+						<button
+							className='bg-secondary border border-primary text-black px-8 rounded-r-md'
+							onClick={(e: any) =>
+								router.push(
+									`/shop?filterQuery=${encodeURIComponent(
+										JSON.stringify({ name: search })
+									)}`
+								)
+							}
+						>
 							Search
 						</button>
 					</div>
