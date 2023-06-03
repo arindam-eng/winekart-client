@@ -32,13 +32,16 @@ interface Props {
 }
 
 interface ProductListingProps {
-	filter: any;
+	query: any;
 }
 
-const ProductListing: React.FC<ProductListingProps> = ({ filter }) => {
+const ProductListing: React.FC<ProductListingProps> = ({ query }) => {
 	const { data, loading, error } = useQuery(GET_WINES_QUERY, {
-		variables: { filter: filter || {} },
+		variables: {
+			filter: query?.filterQuery ? JSON.parse(query.filterQuery) : {},
+		},
 	});
+
 	return (
 		<>
 			<div className='grid md:grid-cols-3 grid-cols-2 gap-6'>
@@ -50,7 +53,10 @@ const ProductListing: React.FC<ProductListingProps> = ({ filter }) => {
 					: !loading && <h3>No Product found</h3>}
 			</div>
 			<hr className='mt-6' />
-			<Pagination />
+			<Pagination
+				currentPage={data?.wines?.pageNo}
+				totalPages={data?.wines?.totalPages}
+			/>
 		</>
 	);
 };

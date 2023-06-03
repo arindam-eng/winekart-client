@@ -1,16 +1,45 @@
 /* eslint-disable @next/next/no-img-element */
+'use client';
 import Link from 'next/link';
 import React from 'react';
 import { Product } from '../shop/ProductListing';
+import localStorageManager from '@/helper/localStorageManager';
+import { ADD_ITEM_TO_ORDER } from '@/gql/orders/order.gql';
+import { useMutation } from '@apollo/client';
 
 type ProductCardProps = {
 	product: Product;
 };
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+	const [
+		addItemToCart,
+		{ data: cartOrder, loading: cartOrderLoading, error: cartOrderError },
+	] = useMutation(ADD_ITEM_TO_ORDER);
+
 	const skuId = product?.skus?.find(
 		(sku) => Number(sku.price) === Number(product?.price)
 	)?.skuId;
+
+	const handleAddToCart = async (e: any) => {
+		e.preventDefault();
+		const addItemInput = {
+			product: {
+				slug: product?.slug,
+				quantity: Number(1),
+				skuId: Number(skuId),
+			},
+		};
+		const { data } = await addItemToCart({ variables: { addItemInput } });
+		const cartItemCount = data?.addItemToOrder?.cartItemCount;
+		const items = data?.addItemToOrder?.items;
+		localStorageManager.setValue('cartItemCount', cartItemCount);
+		localStorageManager.setValue(
+			'cartItems',
+			JSON.stringify(items.map((item: any) => item.sku?.skuId))
+		);
+	};
+
 	return (
 		<div className='bg-white shadow rounded overflow-hidden group'>
 			<div className='relative'>
@@ -95,6 +124,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 			<a
 				href='#'
 				className='block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition'
+				onClick={handleAddToCart}
 			>
 				Add to cart
 			</a>

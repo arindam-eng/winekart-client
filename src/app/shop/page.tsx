@@ -16,8 +16,8 @@ const Shop: NextPage<PageProps> = ({ searchParams }) => {
 			<div className='container grid md:grid-cols-4 grid-cols-2 gap-6 pt-4 pb-16 items-start'>
 				<Sidebar query={searchParams} />
 				<div className='col-span-3'>
-					<SortingHeader filter={searchParams} />
-					<ProductListing filter={searchParams} />
+					<SortingHeader query={searchParams} />
+					<ProductListing query={searchParams} />
 				</div>
 			</div>
 		</>
