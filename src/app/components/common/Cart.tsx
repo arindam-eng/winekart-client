@@ -44,19 +44,32 @@ const Cart: React.FC<CartProps> = ({
 		}
 	}, [cartData]);
 
+	useEffect(() => {
+		if (checkoutErr) {
+			return toast.error(checkoutErr.message);
+		}
+		if (
+			checkoutData?.checkoutSesionForAOrder?.sessionUrl &&
+			checkoutData?.checkoutSesionForAOrder?.publicKey
+		) {
+			localStorageManager.setValue(
+				'stripePublicKey',
+				checkoutData?.checkoutSesionForAOrder?.publicKey
+			);
+			router.push(checkoutData?.checkoutSesionForAOrder?.sessionUrl);
+		}
+	}, [
+		checkoutData?.checkoutSesionForAOrder?.publicKey,
+		checkoutData?.checkoutSesionForAOrder?.sessionUrl,
+		checkoutErr,
+		router,
+	]);
+
 	const handleCheckout = async (e: any) => {
 		e.preventDefault();
 		if (checkoutLoading) return false;
 		// eslint-disable-next-line react-hooks/rules-of-hooks
 		await checkoutOrder();
-		if (checkoutErr) {
-			return toast.error(checkoutErr.message);
-		}
-		localStorageManager.setValue(
-			'stripePublicKey',
-			checkoutData?.checkoutSesionForAOrder?.publicKey
-		);
-		router.push(checkoutData?.checkoutSesionForAOrder?.sessionUrl);
 	};
 
 	return (

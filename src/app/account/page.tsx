@@ -4,15 +4,16 @@ import React, { useEffect, useState } from 'react';
 import AccSidebar from '../components/account/Sidebar';
 import ManageAcc from '../components/account/ManageAcc';
 import ProfileForm from '../components/account/ProfileForm';
-import Wishlist from '../components/account/Wishlist';
+// import Wishlist from '../components/account/Wishlist';
 import withAuth from '../components/auth-hoc/withAuth';
+import OrderHistory from '../components/account/OrderHistory';
 
 interface PageProps {
 	searchParams: any;
 }
 
 const Profile: React.FC<PageProps> = ({ searchParams }) => {
-	const [eventKey, setEventKey] = useState('manageAcc');
+	const [eventKey, setEventKey] = useState('profile');
 	useEffect(() => {
 		if (searchParams?.menu) {
 			setEventKey((key) => searchParams?.menu);
@@ -27,9 +28,12 @@ const Profile: React.FC<PageProps> = ({ searchParams }) => {
 					<ManageAcc />
 				) : eventKey === 'profile' ? (
 					<ProfileForm />
-				) : eventKey === 'wishlist' ? (
-					<Wishlist />
-				) : null}
+				) : eventKey === 'orderHist' ? (
+					<OrderHistory />
+				) : // : eventKey === 'wishlist' ? (
+				// 	<Wishlist />
+				// )
+				null}
 			</div>
 		</>
 	);

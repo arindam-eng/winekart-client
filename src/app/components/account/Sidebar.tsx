@@ -33,7 +33,7 @@ const AccSidebar: React.FC<AccSidebarProps> = ({ eventKey, setEventKey }) => {
 
 			<div className='mt-6 bg-white shadow rounded p-4 divide-y divide-gray-200 space-y-4 text-gray-600'>
 				<div className='space-y-1 pl-8'>
-					<a
+					{/* <a
 						href='#'
 						className={`relative block capitalize transition hover:text-primary ${
 							eventKey === 'manageAcc' ? 'text-primary font-medium ' : ''
@@ -41,7 +41,7 @@ const AccSidebar: React.FC<AccSidebarProps> = ({ eventKey, setEventKey }) => {
 						onClick={(e) => handleEventMenu(e, 'manageAcc')}
 					>
 						Manage account
-					</a>
+					</a> */}
 					<a
 						href='#'
 						className={`relative hover:text-primary block capitalize transition ${
@@ -51,7 +51,7 @@ const AccSidebar: React.FC<AccSidebarProps> = ({ eventKey, setEventKey }) => {
 					>
 						Profile information
 					</a>
-					<a
+					{/* <a
 						href='#'
 						className={`relative hover:text-primary block capitalize transition ${
 							eventKey === 'manageAdd' ? 'text-primary font-medium ' : ''
@@ -59,7 +59,7 @@ const AccSidebar: React.FC<AccSidebarProps> = ({ eventKey, setEventKey }) => {
 						onClick={(e) => handleEventMenu(e, 'manageAdd')}
 					>
 						Manage addresses
-					</a>
+					</a> */}
 					<a
 						href='#'
 						className={`relative hover:text-primary block capitalize transition ${
@@ -69,7 +69,7 @@ const AccSidebar: React.FC<AccSidebarProps> = ({ eventKey, setEventKey }) => {
 					>
 						Order history
 					</a>
-					<a
+					{/* <a
 						href='#'
 						className={`relative hover:text-primary block capitalize transition ${
 							eventKey === 'wishlist' ? 'text-primary font-medium ' : ''
@@ -77,7 +77,7 @@ const AccSidebar: React.FC<AccSidebarProps> = ({ eventKey, setEventKey }) => {
 						onClick={(e) => handleEventMenu(e, 'wishlist')}
 					>
 						My Wishlist
-					</a>
+					</a> */}
 				</div>
 
 				<div className='space-y-1 pl-8 pt-4'>
