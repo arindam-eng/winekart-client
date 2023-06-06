@@ -29,7 +29,7 @@ const Profile: React.FC<PageProps> = ({ searchParams }) => {
 				) : eventKey === 'profile' ? (
 					<ProfileForm />
 				) : eventKey === 'orderHist' ? (
-					<OrderHistory />
+					<OrderHistory searchParams={searchParams} />
 				) : // : eventKey === 'wishlist' ? (
 				// 	<Wishlist />
 				// )

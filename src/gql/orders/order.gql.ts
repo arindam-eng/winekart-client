@@ -28,3 +28,29 @@ export const ORDER_CHECKOUT = gql`
 		}
 	}
 `;
+
+export const ORDER_HISTORY = gql`
+	mutation ConfirmOrders($skip: Int, $limit: Int) {
+		confirmOrders(confirmOrders: { skip: $skip, limit: $limit }) {
+			orderId
+			cartItemCount
+			items
+			paymentDetails {
+				method
+				updatedAt
+			}
+			retailer {
+				familyName
+				givenName
+				id
+			}
+			costDetails {
+				grossAmount
+				subTotalAmount
+				shippingCost
+				discountAmount
+				tax
+			}
+		}
+	}
+`;

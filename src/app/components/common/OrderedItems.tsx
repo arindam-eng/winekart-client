@@ -3,85 +3,26 @@ import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import ProductItem from '../cart/ProductItem';
-import Loader from './Loader';
-import { useMutation } from '@apollo/client';
-import { ADD_ITEM_TO_ORDER, ORDER_CHECKOUT } from '@/gql/orders/order.gql';
-import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
-import localStorageManager from '@/helper/localStorageManager';
 import withAuth from '../auth-hoc/withAuth';
 
 type CartProps = {
-	cartOpen: boolean;
-	setCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
-	cartData: Record<string, any>;
-	cartLoading: boolean;
+	open: boolean;
+	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	items: Record<string, any>[];
+	costDetails: Record<string, any>;
+	orderId: string;
 };
 
-const Cart: React.FC<CartProps> = ({
-	cartOpen,
-	setCartOpen,
-	cartData,
-	cartLoading,
+const OrderedItem: React.FC<CartProps> = ({
+	open,
+	setOpen,
+	items,
+	costDetails,
+	orderId,
 }) => {
-	const router = useRouter();
-	const [
-		checkoutOrder,
-		{ data: checkoutData, loading: checkoutLoading, error: checkoutErr },
-	] = useMutation(ORDER_CHECKOUT);
-
-
-	const [
-		addItemToCart,
-		{ data: cartOrder, loading: cartOrderLoading, error: cartOrderError },
-	] = useMutation(ADD_ITEM_TO_ORDER);
-
-
-	const [items, setItems] = useState([]);
-	const [total, setTotal] = useState(0);
-	console.log(cartData);
-	useEffect(() => {
-		if (cartData?.items) {
-			setItems(cartData?.items);
-			setTotal(
-				cartData?.items?.reduce((acc: any, item: any) => {
-					const itemTotal = item.sku?.price * item.quantity;
-					return acc + itemTotal;
-				}, 0)
-			);
-		}
-	}, [cartData]);
-
-	useEffect(() => {
-		if (checkoutErr) {
-			toast.error(checkoutErr.message);
-		} else if (
-			checkoutData?.checkoutSesionForAOrder?.sessionUrl &&
-			checkoutData?.checkoutSesionForAOrder?.publicKey
-		) {
-			localStorageManager.setValue(
-				'stripePublicKey',
-				checkoutData?.checkoutSesionForAOrder?.publicKey
-			);
-			router.push(checkoutData?.checkoutSesionForAOrder?.sessionUrl);
-		}
-	}, [
-		checkoutData?.checkoutSesionForAOrder?.publicKey,
-		checkoutData?.checkoutSesionForAOrder?.sessionUrl,
-		checkoutErr,
-		router,
-	]);
-
-	const handleCheckout = async (e: any) => {
-		e.preventDefault();
-		if (checkoutLoading) return false;
-		// eslint-disable-next-line react-hooks/rules-of-hooks
-		await checkoutOrder();
-	};
-
 	return (
-		<Transition.Root show={cartOpen} as={Fragment}>
-			<Dialog as='div' className='relative z-10' onClose={setCartOpen}>
+		<Transition.Root show={open} as={Fragment}>
+			<Dialog as='div' className='relative z-10' onClose={setOpen}>
 				<Transition.Child
 					as={Fragment}
 					enter='ease-in-out duration-500'
@@ -111,14 +52,13 @@ const Cart: React.FC<CartProps> = ({
 										<div className='flex-1 overflow-y-auto px-4 py-6 sm:px-6'>
 											<div className='flex items-start justify-between'>
 												<Dialog.Title className='text-lg font-medium text-gray-900'>
-													Shopping cart
+													Order Items for <span className='text-red-500'>{orderId?.slice(-10)}</span>
 												</Dialog.Title>
-												<Loader loading={cartLoading} />
 												<div className='ml-3 flex h-7 items-center'>
 													<button
 														type='button'
 														className='-m-2 p-2 text-gray-400 hover:text-gray-500'
-														onClick={() => setCartOpen(false)}
+														onClick={() => setOpen(false)}
 													>
 														<span className='sr-only'>Close panel</span>
 														<XMarkIcon className='h-6 w-6' aria-hidden='true' />
@@ -136,13 +76,11 @@ const Cart: React.FC<CartProps> = ({
 															? items.map((product: any, index: number) => (
 																	<ProductItem
 																		product={product}
+																		cart={false}
 																		key={product?.productId + index}
-																		cart={true}
-																		addItemToCart={addItemToCart}
-																		setItems={setItems}
 																	/>
 															  ))
-															: 'Cart Empty'}
+															: 'Empty Order List'}
 													</ul>
 												</div>
 											</div>
@@ -150,20 +88,12 @@ const Cart: React.FC<CartProps> = ({
 
 										<div className='border-t border-gray-200 px-4 py-6 sm:px-6'>
 											<div className='flex justify-between text-base font-medium text-gray-900'>
-												<p>Subtotal</p>
-												<p>${total}</p>
+												<p>Shipping</p>
+												<p>${costDetails?.shippingCost || 0}</p>
 											</div>
-											<p className='mt-0.5 text-sm text-gray-500'>
-												Shipping and taxes calculated at checkout.
-											</p>
-											<div className='mt-6'>
-												<a
-													href='#'
-													className='flex items-center justify-center rounded-md border border-transparent bg-primary px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-red-700'
-													onClick={handleCheckout}
-												>
-													{checkoutLoading ? 'Loading... ' : 'Checkout'}
-												</a>
+											<div className='flex justify-between text-base font-medium text-gray-900'>
+												<p>Total</p>
+												<p>${costDetails?.grossAmount}</p>
 											</div>
 											<div className='mt-6 flex justify-center text-center text-sm text-gray-500'>
 												<p>
@@ -171,7 +101,7 @@ const Cart: React.FC<CartProps> = ({
 													<button
 														type='button'
 														className='font-medium text-indigo-600 hover:text-indigo-500'
-														onClick={() => setCartOpen(false)}
+														onClick={() => setOpen(false)}
 													>
 														&nbsp; Continue Shopping
 														<span aria-hidden='true'> &rarr;</span>
@@ -190,4 +120,4 @@ const Cart: React.FC<CartProps> = ({
 	);
 };
 
-export default withAuth(Cart);
+export default withAuth(OrderedItem);

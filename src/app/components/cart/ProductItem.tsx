@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
-import slugify from 'slugify'
+import slugify from 'slugify';
 
 type ProductItemProps = {
 	product: {
@@ -9,16 +9,25 @@ type ProductItemProps = {
 		quantity: number;
 		image: string;
 		sku: {
-			skuId: string,
-			size: string,
-			color: string,
-			mrp: number,
-			price: number
-		}
+			skuId: string;
+			size: string;
+			color: string;
+			mrp: number;
+			price: number;
+		};
 	};
+	cart: boolean;
+	setItems?: any;
+	addItemToCart?: any;
 };
 
-const ProductItem = ({ product }: ProductItemProps) => {
+const ProductItem = ({
+	product,
+	cart,
+	setItems,
+	addItemToCart,
+}: ProductItemProps) => {
+	const removeItem = () => {}
 	return (
 		<li key={product?.id} className='flex py-6'>
 			<div className='h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200'>
@@ -42,15 +51,16 @@ const ProductItem = ({ product }: ProductItemProps) => {
 				</div>
 				<div className='flex flex-1 items-end justify-between text-sm'>
 					<p className='text-gray-500'>Qty {product?.quantity}</p>
-
-					<div className='flex'>
-						<button
-							type='button'
-							className='font-medium text-indigo-600 hover:text-indigo-500'
-						>
-							Remove
-						</button>
-					</div>
+					{cart && (
+						<div className='flex'>
+							<button
+								type='button'
+								className='font-medium text-indigo-600 hover:text-indigo-500'
+							>
+								Remove
+							</button>
+						</div>
+					)}
 				</div>
 			</div>
 		</li>
