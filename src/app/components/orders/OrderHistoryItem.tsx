@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
+import OrderTrack from './OrderTrack';
 
 interface PageProps {
 	order: Record<string, any>;
@@ -21,7 +22,7 @@ const OrderHistoryItem: React.FC<PageProps> = ({
 					className='w-full'
 				/>
 			</div>
-			<div className='w-1/3'>
+			<div className='w-1/2'>
 				<h2 className='text-gray-800 text-xl font-medium uppercase'>
 					{order?.orderId?.slice(-10)}
 				</h2>
@@ -41,6 +42,19 @@ const OrderHistoryItem: React.FC<PageProps> = ({
 						</span>
 					</p>
 				)}
+				<p className='text-gray-500 text-sm'>
+					<OrderTrack
+						currentStep={
+							order?.status == 'CONFIRM'
+								? 1
+								: order?.status == 'SHIPPED'
+								? 2
+								: order?.status == 'INTRANSIT'
+								? 3
+								: 4
+						}
+					/>
+				</p>
 			</div>
 			<div className='text-primary text-lg font-semibold'>
 				${order?.costDetails?.grossAmount}

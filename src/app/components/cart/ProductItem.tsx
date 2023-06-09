@@ -6,6 +6,7 @@ type ProductItemProps = {
 	product: {
 		id: number;
 		name: string;
+		slug: string,
 		quantity: number;
 		image: string;
 		sku: {
@@ -17,17 +18,14 @@ type ProductItemProps = {
 		};
 	};
 	cart: boolean;
-	setItems?: any;
-	addItemToCart?: any;
+	handleAddToCart?: any;
 };
 
 const ProductItem = ({
 	product,
 	cart,
-	setItems,
-	addItemToCart,
+	handleAddToCart,
 }: ProductItemProps) => {
-	const removeItem = () => {}
 	return (
 		<li key={product?.id} className='flex py-6'>
 			<div className='h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200'>
@@ -56,6 +54,7 @@ const ProductItem = ({
 							<button
 								type='button'
 								className='font-medium text-indigo-600 hover:text-indigo-500'
+								onClick={(e) => handleAddToCart(e, product?.slug, product?.sku?.skuId)}
 							>
 								Remove
 							</button>

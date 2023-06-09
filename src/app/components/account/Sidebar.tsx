@@ -5,9 +5,14 @@ import React from 'react';
 interface AccSidebarProps {
 	eventKey: string;
 	setEventKey: React.Dispatch<React.SetStateAction<string>>;
+	data: Record<string, any>;
 }
 
-const AccSidebar: React.FC<AccSidebarProps> = ({ eventKey, setEventKey }) => {
+const AccSidebar: React.FC<AccSidebarProps> = ({
+	eventKey,
+	setEventKey,
+	data,
+}) => {
 	const router = useRouter();
 
 	const handleEventMenu = (e: any, key: string) => {
@@ -20,14 +25,14 @@ const AccSidebar: React.FC<AccSidebarProps> = ({ eventKey, setEventKey }) => {
 			<div className='px-4 py-3 shadow flex items-center gap-4'>
 				<div className='flex-shrink-0'>
 					<img
-						src='../assets/images/avatar.png'
+						src={data?.user?.picture}
 						alt='profile'
 						className='rounded-full w-14 h-14 border border-gray-200 p-1 object-cover'
 					/>
 				</div>
-				<div className='flex-grow'>
-					<p className='text-gray-600'>Hello,</p>
-					<h4 className='text-gray-800 font-medium'>John Doe</h4>
+				<div className='flex'>
+					<p className='text-gray-600'>Hello, &nbsp;</p>
+					<h4 className='text-gray-800 font-medium'>{data?.user?.givenName}</h4>
 				</div>
 			</div>
 

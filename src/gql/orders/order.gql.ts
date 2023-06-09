@@ -39,11 +39,11 @@ export const ORDER_HISTORY = gql`
 				method
 				updatedAt
 			}
-			retailer {
-				familyName
-				givenName
-				id
-			}
+			# retailer {
+			# 	familyName
+			# 	givenName
+			# 	id
+			# }
 			costDetails {
 				grossAmount
 				subTotalAmount
@@ -51,6 +51,7 @@ export const ORDER_HISTORY = gql`
 				discountAmount
 				tax
 			}
+			status
 		}
 	}
 `;

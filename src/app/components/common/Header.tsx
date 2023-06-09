@@ -14,10 +14,16 @@ interface PageProps {
 }
 const Header: NextPage<PageProps> = ({ searchParams }) => {
 	const router = useRouter();
-	const authToken = window.localStorage.getItem('wine_token');
-
 	const [cartOpen, setCartOpen] = useState(false);
 	const [search, setSearch] = useState('');
+	const [authToken, setAuthToken] = useState<any>('');
+
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			setAuthToken(window.localStorage.getItem('wine_token'));
+		}
+	}, []);
+
 	const {
 		data: cartData,
 		loading: cartLoading,
@@ -225,6 +231,7 @@ const Header: NextPage<PageProps> = ({ searchParams }) => {
 				setCartOpen={setCartOpen}
 				cartData={cartData?.getOpenOrder}
 				cartLoading={cartLoading}
+				refetchCartData={refetchCartData}
 			/>
 			<ToastContainer />
 		</>

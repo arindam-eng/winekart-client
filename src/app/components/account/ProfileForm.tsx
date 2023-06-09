@@ -1,15 +1,11 @@
 'use client';
-import { GET_USER } from '@/gql/users/user.gql';
-import { useQuery } from '@apollo/client';
 import React from 'react';
-import { toast } from 'react-toastify';
 
-const ProfileForm = () => {
-	const { data, loading, error } = useQuery(GET_USER);
-	if (error) {
-		toast.error(error.message);
-	}
+interface PageProps {
+	data: any;
+}
 
+const ProfileForm: React.FC<PageProps> = ({ data }) => {
 	return (
 		<div className='col-span-9 shadow rounded px-6 pt-5 pb-7'>
 			<h4 className='text-lg font-medium capitalize mb-4'>

@@ -16,6 +16,7 @@ type CartProps = {
 	setCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	cartData: Record<string, any>;
 	cartLoading: boolean;
+	refetchCartData?: any;
 };
 
 const Cart: React.FC<CartProps> = ({
@@ -23,6 +24,7 @@ const Cart: React.FC<CartProps> = ({
 	setCartOpen,
 	cartData,
 	cartLoading,
+	refetchCartData,
 }) => {
 	const router = useRouter();
 	const [
@@ -30,16 +32,13 @@ const Cart: React.FC<CartProps> = ({
 		{ data: checkoutData, loading: checkoutLoading, error: checkoutErr },
 	] = useMutation(ORDER_CHECKOUT);
 
-
 	const [
 		addItemToCart,
 		{ data: cartOrder, loading: cartOrderLoading, error: cartOrderError },
 	] = useMutation(ADD_ITEM_TO_ORDER);
 
-
 	const [items, setItems] = useState([]);
 	const [total, setTotal] = useState(0);
-	console.log(cartData);
 	useEffect(() => {
 		if (cartData?.items) {
 			setItems(cartData?.items);
@@ -50,12 +49,12 @@ const Cart: React.FC<CartProps> = ({
 				}, 0)
 			);
 		}
+
+		console.log(`cartData :: ${JSON.stringify(cartData)}`);
 	}, [cartData]);
 
 	useEffect(() => {
-		if (checkoutErr) {
-			toast.error(checkoutErr.message);
-		} else if (
+		if (
 			checkoutData?.checkoutSesionForAOrder?.sessionUrl &&
 			checkoutData?.checkoutSesionForAOrder?.publicKey
 		) {
@@ -72,11 +71,46 @@ const Cart: React.FC<CartProps> = ({
 		router,
 	]);
 
+	if (checkoutErr) {
+		toast.error(checkoutErr.message);
+	}
+
+	if (cartOrderError) {
+		toast.error(cartOrderError.message);
+	}
+
 	const handleCheckout = async (e: any) => {
 		e.preventDefault();
 		if (checkoutLoading) return false;
 		// eslint-disable-next-line react-hooks/rules-of-hooks
 		await checkoutOrder();
+	};
+
+	const handleAddToCart = async (e: any, slug: string, skuId: number) => {
+		e.preventDefault();
+		const addItemInput = {
+			product: {
+				slug: slug,
+				quantity: 0,
+				skuId: Number(skuId),
+			},
+		};
+		const { data } = await addItemToCart({ variables: { addItemInput } });
+		const cartItemCount = data?.addItemToOrder?.cartItemCount;
+		const items = data?.addItemToOrder?.items;
+		localStorageManager.setValue('cartItemCount', cartItemCount);
+		localStorageManager.setValue(
+			'cartItems',
+			JSON.stringify(items.map((item: any) => item.sku?.skuId))
+		);
+		// refetchCartData();
+		setItems(items);
+		setTotal(
+			items?.reduce((acc: any, item: any) => {
+				const itemTotal = item.sku?.price * item.quantity;
+				return acc + itemTotal;
+			}, 0)
+		);
 	};
 
 	return (
@@ -138,8 +172,7 @@ const Cart: React.FC<CartProps> = ({
 																		product={product}
 																		key={product?.productId + index}
 																		cart={true}
-																		addItemToCart={addItemToCart}
-																		setItems={setItems}
+																		handleAddToCart={handleAddToCart}
 																	/>
 															  ))
 															: 'Cart Empty'}
