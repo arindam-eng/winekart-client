@@ -6,7 +6,7 @@ import {
 } from '@apollo/client';
 
 export const getClient = () => {
-	const httpLink = createHttpLink({ uri: 'https://api-winekart.arindampauleng.site' });
+	const httpLink = createHttpLink({ uri: 'https://api-winekart.arindampauleng.site/graphql' });
 
 	const authLink = new ApolloLink((operation, forward) => {
 		// Retrieve the bearer token from local storage
