@@ -26,11 +26,12 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
+	const params = new URLSearchParams();
 	return (
 		<html lang='en'>
 			<body className={poppins.className}>
 				<ApolloProviders>
-					<Header />
+					<Header searchParams={params} />
 					<Navbar />
 					{children}
 					<Footer />
